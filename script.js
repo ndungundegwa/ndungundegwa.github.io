@@ -1,5 +1,6 @@
-// Sticky header & active nav links
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1. Sticky Header & Active Nav Links ---
     const header = document.getElementById('topbar');
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.navlink');
@@ -27,9 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Mobile menu toggle
+    // --- 2. Mobile Menu Toggle ---
     const hamburger = document.getElementById('hamburger');
     const mobilePanel = document.getElementById('mobilePanel');
+    const mobileLinks = document.querySelectorAll('.mobile-menu a');
 
     hamburger.addEventListener('click', () => {
         const isOpen = !mobilePanel.hasAttribute('hidden');
@@ -39,28 +41,64 @@ document.addEventListener('DOMContentLoaded', () => {
             mobilePanel.removeAttribute('hidden');
         }
     });
-    
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobilePanel.setAttribute('hidden', '');
-      });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobilePanel.setAttribute('hidden', '');
+        });
     });
 
-    // Typing effect for hero title
-    const typedText = document.querySelector('.typed-text');
-    const textToType = typedText.textContent;
-    typedText.textContent = '';
-    let i = 0;
-    function type() {
-        if (i < textToType.length) {
-            typedText.textContent += textToType.charAt(i);
-            i++;
-            setTimeout(type, 90);
-        }
-    }
-    type();
+    // --- 3. Advanced Typing Effect (Rotating Text) ---
+    const typedTextSpan = document.querySelector('.typed-text');
+    const cursorSpan = document.querySelector('.cursor');
 
-    // Portfolio filtering
+    if (typedTextSpan) {
+        const textArray = typedTextSpan.getAttribute('data-typed-items').split(', ');
+        let textArrayIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentText = textArray[textArrayIndex];
+            
+            if (isDeleting) {
+                typedTextSpan.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextSpan.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = 100; 
+            if (isDeleting) typeSpeed = 50; 
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000; // Pause at end of word
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textArrayIndex++;
+                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                typeSpeed = 500; 
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        // Start typing
+        if (textArray.length) setTimeout(type, 1000);
+
+        // Blinking cursor
+        setInterval(() => {
+            if (cursorSpan.style.opacity === '0') {
+                cursorSpan.style.opacity = '1';
+            } else {
+                cursorSpan.style.opacity = '0';
+            }
+        }, 500);
+    }
+
+    // --- 4. Portfolio Filtering ---
     const filterButtons = document.querySelectorAll('.pill');
     const portfolioItems = document.querySelectorAll('.gallery .item');
 
@@ -80,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Skills bar animation on scroll
+    // --- 5. Skills Bar Animation ---
     const skillBars = document.querySelectorAll('.skill .bar span');
     const skillObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -92,12 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.6 });
-    
+
     skillBars.forEach(bar => {
         skillObserver.observe(bar);
     });
 
-    // Counters animation
+    // --- 6. Number Counters Animation ---
     const counters = document.querySelectorAll('.counter-box .num');
     const counterObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -121,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.6 });
-    
+
     counters.forEach(counter => {
         counterObserver.observe(counter);
     });
 
-    // Back to top button
+    // --- 7. Back to Top Button ---
     const backToTopBtn = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 600) {
