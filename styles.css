@@ -149,6 +149,7 @@ img {
   transition: 0.3s;
 }
 
+/* Mobile Menu */
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -173,16 +174,17 @@ img {
   color: #fff;
 }
 
+.mobile-menu:not([hidden]) {
+  visibility: visible;
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .menu {
     display: none;
   }
   .hamburger {
     display: flex;
-  }
-  .mobile-menu:not([hidden]) {
-    visibility: visible;
-    opacity: 1;
   }
 }
 
@@ -234,6 +236,17 @@ img {
   margin-bottom: 20px;
   font-weight: 700;
 }
+
+/* --- New styles for Typing Effect --- */
+.typed-text {
+  color: var(--coral);
+}
+.cursor {
+  display: inline-block;
+  color: var(--text);
+  margin-left: 2px;
+}
+/* ------------------------------------- */
 
 .hero-content p {
   color: var(--muted);
@@ -295,18 +308,14 @@ img {
   border: 2px solid var(--coral);
 }
 
-/* Replace the current .hero-image img block with this */
 .hero-image img {
   max-width: 100%;
   height: auto;
-  /* remove the rectangular mask & outer box shadow */
-  border-radius: 0;        /* remove rounded rectangle clipping */
-  box-shadow: none;        /* remove box-shadow which shadows the element box */
+  border-radius: 0;
+  box-shadow: none;
   border: none;
-  background: transparent; /* ensure no background color on the element */
-  /* use a silhouette-aware shadow instead (optional) */
+  background: transparent;
   filter: drop-shadow(0 18px 30px rgba(0,0,0,0.45));
-  /* if you don't want any shadow at all, remove the filter line */
 }
 
 
